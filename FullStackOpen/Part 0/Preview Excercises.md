@@ -27,9 +27,6 @@ sequenceDiagram
     Server->>Browser: HTML document
     deactivate Server
     Note right of Browser: The browser displays the updated notes
-
-
-
 ```
 
 ## Part 0.5
@@ -44,8 +41,48 @@ sequenceDiagram
     activate Browser
     User->>Browser: Enters the URL, https://studies.cs.helsinki.fi/exampleapp/spa
     deactivate Browser
-    
 
+    Browser->>Server: GET  https://studies.cs.helsinki.fi/exampleapp/spa
+    activate Server
+    Server-->>Browser: HTML document
+    Browser-->>Browser: Parses the HTML document response and requests the css and js files
+    Browser-->>Server: GET  https://studies.cs.helsinki.fi/exampleapp/spa/main.css
+    Browser-->>Server: GET  https://studies.cs.helsinki.fi/exampleapp/spa/script.js
+    Note over Browser: The browser post parsing javascript file, starts executing js code
+    Browser-->>Server: GET  https://studies.cs.helsinki.fi/exampleapp/spa/data.json
+    Server-->>Browser: JSON Array
+    Browser-->>Browser: Parses json response and displays the list of notes
+    deactivate Server
+```
 
+## Part 0.6
 
+```mermaid
+sequenceDiagram
+    participant Browser
+    participant Server
+    participant Javascript
+    Actor User
+
+    Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+    activate Server
+    Server->>Browser: HTML document
+    Note over Browser: The browser displays the HTML document
+    deactivate Server
+
+    User->>Browser: Enters the new note
+    activate Browser
+    User->>Browser: Clicks on the save button
+    deactivate Browser
+
+    Browser->>Server: POST, https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate Server
+    Note over Browser: Browser appends the note inside the payload
+    Server->>Browser: 201, Message: Note Created
+    deactivate Server
+
+    Browser-->>Javascript: The Browser passes the response to js-code
+    activate Javascript
+    Javascript-->>Javascript: Parses response and manipulates DOM to render new note
+    deactivate Javascript
 ```
