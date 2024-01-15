@@ -1,13 +1,14 @@
 import Part from "./Part";
 
 const Content = (props) => {
+  // console.log("props", props.parts)
     return (
       <div>
-        <Part part={props.part1} excercises={props.exercises1}/>
-        <Part part={props.part2} excercises={props.exercises2}/>
-        <Part part={props.part3} excercises={props.exercises3}/>
+        <Part part={props.parts[0].name} exercises={props.parts[0].exercises} />
+        <Part part={props.parts[1].name} exercises={props.parts[1].exercises} />
+        <Part part={props.parts[2].name} exercises={props.parts[2].exercises} />
       </div>
     );
   };
-
+ 
 export default Content;
